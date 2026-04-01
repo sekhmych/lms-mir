@@ -10,6 +10,12 @@
             </div>
         @endif
 
+        @if (session('warning'))
+            <div class="mb-4 px-4 py-3 bg-yellow-100 text-yellow-800 rounded-sm text-sm">
+                {{ session('warning') }}
+            </div>
+        @endif
+
         <div class="max-w-4xl">
             <div class="bg-slate-200">
                 <div class="p-6 text-gray-900 space-y-6">
@@ -155,6 +161,29 @@
                                     </tbody>
                                 </table>
                             </div>
+                        @endif
+                    </div>
+
+                    {{-- Записать сотрудника --}}
+                    <div class="border-t border-gray-300 pt-6">
+                        <h3 class="text-sm font-semibold text-gray-800 mb-3">Записать сотрудника</h3>
+                        @if ($availableEmployees->isNotEmpty())
+                            <form method="POST" action="{{ route('trainer-sessions.enroll', $session) }}" class="flex items-end gap-3">
+                                @csrf
+                                <div class="flex-1">
+                                    <select name="user_id" required
+                                        class="block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm text-sm">
+                                        <option value="">-- Выберите сотрудника --</option>
+                                        @foreach ($availableEmployees as $employee)
+                                            <option value="{{ $employee->id }}">{{ $employee->name }} ({{ $employee->email }})</option>
+                                        @endforeach
+                                    </select>
+                                    <x-input-error :messages="$errors->get('user_id')" class="mt-1" />
+                                </div>
+                                <x-primary-button>Записать</x-primary-button>
+                            </form>
+                        @else
+                            <p class="text-sm text-gray-500">Все пользователи уже записаны на этот поток.</p>
                         @endif
                     </div>
 

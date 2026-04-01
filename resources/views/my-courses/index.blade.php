@@ -10,7 +10,6 @@
                         <h2 class="text-lg font-semibold text-gray-800 mb-4">Внутренние курсы</h2>
 
                         @php
-                            use Carbon\Carbon;
 
 
                             $enrollmentStatusLabels = [
@@ -41,7 +40,7 @@
                                         $enrollmentStatus  = $enrollmentStatusLabels[$enrollment->status] ?? ['label' => $enrollment->status, 'class' => 'bg-gray-100 text-gray-600'];
                                         $sessionStatus  = $sessionStatusLabels[$session?->status] ?? ['label' => $session?->status, 'class' => 'bg-gray-100 text-gray-600'];
                                     @endphp
-                                    <div class="flex flex-col bg-gray-50 px-6 py-4 rounded-sm">
+                                    <a href="{{ route('my-courses.show', $enrollment) }}" class="flex flex-col bg-gray-50 px-6 py-4 rounded-sm hover:bg-gray-100 transition-colors">
                                         <div class="flex-1">
                                             <div class="flex items-start justify-between gap-2 mb-2">
                                                 <h3 class="font-semibold text-gray-900 text-base leading-snug">
@@ -76,11 +75,11 @@
                                             @if ($session)
                                                 <div>
                                                     <span class="font-medium text-gray-700">Поток:</span>
-                                                    {{ Carbon::parse($session->start_date)->format('d.m.Y') }}
+                                                    {{ \Carbon\Carbon::parse($session->start_date)->format('d.m.Y') }}
                                                     –
-                                                    {{ Carbon::parse($session->end_date)->format('d.m.Y') }}
+                                                    {{ \Carbon\Carbon::parse($session->end_date)->format('d.m.Y') }}
                                                     <span
-                                                        class="ml-1 text-xs font-medium px-1.5 py-0.5 rounded-full {{ $sessionStatusLabels['class'] }}">{{ $sessionStatusLabels['label'] }}</span>
+                                                        class="ml-1 text-xs font-medium px-1.5 py-0.5 rounded-full {{ $sessionStatus['class'] }}">{{ $sessionStatus['label'] }}</span>
                                                 </div>
                                                 @if ($session->location)
                                                     <div><span
@@ -94,7 +93,7 @@
                                                 @endif
                                             @endif
                                         </div>
-                                    </div>
+                                    </a>
                                 @endforeach
                             </div>
                         @endif
@@ -129,9 +128,9 @@
                                             class="mt-auto pt-3 border-t border-gray-200 space-y-1 text-sm text-gray-500">
                                             <div>
                                                 <span class="font-medium text-gray-700">Даты:</span>
-                                                {{ Carbon::parse($exRequest->start_date)->format('d.m.Y') }}
+                                                {{ \Carbon\Carbon::parse($exRequest->start_date)->format('d.m.Y') }}
                                                 –
-                                                {{ Carbon::parse($exRequest->end_date)->format('d.m.Y') }}
+                                                {{ \Carbon\Carbon::parse($exRequest->end_date)->format('d.m.Y') }}
                                             </div>
                                             <div>
                                                 <span class="font-medium text-gray-700">Стоимость:</span>

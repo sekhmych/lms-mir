@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\CourseSession;
 use App\Models\Enrollment;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -31,7 +32,13 @@ class TrainerSessionController extends Controller
         $session->load(['course.direction', 'enrollments.user', 'trainer']);
         $enrollments = $session->enrollments;
 
-        return view('trainer.sessions.show', compact('session', 'enrollments'));
+        $enrolledUserIds = $enrollments->pluck('user_id');
+        $availableEmployees = User::query()
+            ->whereNotIn('id', $enrolledUserIds)
+            ->orderBy('name')
+            ->get();
+
+        return view('trainer.sessions.show', compact('session', 'enrollments', 'availableEmployees'));
     }
 
     public function updateEnrollmentStatus(Enrollment $enrollment, Request $request): RedirectResponse
@@ -97,5 +104,34 @@ class TrainerSessionController extends Controller
             ->get();
 
         return view('trainer.sessions.create', compact('courses'));
+    }
+
+    public function enrollEmployee(CourseSession $session, Request $request): RedirectResponse
+    {
+        if ($session->trainer_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $data = $request->validate([
+            'user_id' => ['required', 'exists:users,id'],
+        ]);
+
+        $exists = $session->enrollments()
+            ->where('user_id', $data['user_id'])
+            ->exists();
+
+        if ($exists) {
+            return back()->with('warning', 'Этот сотрудник уже записан на поток.');
+        }
+
+        $session->enrollments()->create([
+            'user_id' => $data['user_id'],
+            'course_id' => $session->course_id,
+            'course_session_id' => $session->id,
+            'status' => 'registered',
+            'progress' => 0,
+        ]);
+
+        return back()->with('success', 'Сотрудник записан на поток.');
     }
 }

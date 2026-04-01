@@ -27,8 +27,27 @@
                         </x-nav-link>
                     @endrole
                     @role('trainer')
+                        <x-nav-link :href="route('trainer-courses.index')" :active="request()->routeIs('trainer-courses.*')">
+                            Мои курсы
+                        </x-nav-link>
                         <x-nav-link :href="route('trainer-sessions.index')" :active="request()->routeIs('trainer-sessions.*')">
                             Мои потоки
+                        </x-nav-link>
+                    @endrole
+                    @role('hr')
+                        <x-nav-link :href="route('hr.index')" :active="request()->routeIs('hr.index')">
+                            HR-панель
+                        </x-nav-link>
+                        <x-nav-link :href="route('hr.external-requests')" :active="request()->routeIs('hr.external-requests*')">
+                            Заявки
+                        </x-nav-link>
+                        <x-nav-link :href="route('hr.sessions')" :active="request()->routeIs('hr.sessions*')">
+                            Потоки
+                        </x-nav-link>
+                    @endrole
+                    @role('admin')
+                        <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                            Пользователи
                         </x-nav-link>
                     @endrole
                 </div>
@@ -92,6 +111,33 @@
             @role('employee')
                 <x-responsive-nav-link :href="route('courses.index')" :active="request()->routeIs('courses.index')">
                     Курсы
+                </x-responsive-nav-link>
+            @endrole
+
+            @role('trainer')
+                <x-responsive-nav-link :href="route('trainer-courses.index')" :active="request()->routeIs('trainer-courses.*')">
+                    Мои курсы
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('trainer-sessions.index')" :active="request()->routeIs('trainer-sessions.*')">
+                    Мои потоки
+                </x-responsive-nav-link>
+            @endrole
+
+            @role('hr')
+                <x-responsive-nav-link :href="route('hr.index')" :active="request()->routeIs('hr.index')">
+                    HR-панель
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('hr.external-requests')" :active="request()->routeIs('hr.external-requests*')">
+                    Заявки
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('hr.sessions')" :active="request()->routeIs('hr.sessions*')">
+                    Потоки
+                </x-responsive-nav-link>
+            @endrole
+
+            @role('admin')
+                <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                    Пользователи
                 </x-responsive-nav-link>
             @endrole
         </div>

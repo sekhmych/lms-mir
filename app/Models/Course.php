@@ -8,6 +8,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Course extends Model
 {
+    protected $fillable = [
+        'title',
+        'description',
+        'direction_id',
+        'type',
+        'price',
+        'duration',
+        'external_link',
+        'created_by',
+    ];
+
     public function direction(): BelongsTo
     {
         return $this->belongsTo(Direction::class);
@@ -20,5 +31,12 @@ class Course extends Model
     {
         return $this->hasMany(Certificate::class);
     }
-
+    public function lessons(): HasMany
+    {
+        return $this->hasMany(Lesson::class)->orderBy('sort_order');
+    }
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

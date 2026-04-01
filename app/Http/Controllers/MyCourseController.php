@@ -24,4 +24,15 @@ class MyCourseController extends Controller
 
         return view('my-courses.index', compact('enrollments', 'approvedRequests'));
     }
+
+    public function show(Enrollment $enrollment): View
+    {
+        if ($enrollment->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $enrollment->load(['session.course.lessons', 'session.course.direction', 'session.trainer']);
+
+        return view('my-courses.show', compact('enrollment'));
+    }
 }
