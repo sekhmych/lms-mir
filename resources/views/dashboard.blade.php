@@ -15,6 +15,8 @@
                         />
                         <div id="gantt" class=""></div>
                         <script>
+
+
                             let lessons = [
                                 {
                                     id: '1',

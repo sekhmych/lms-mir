@@ -8,7 +8,6 @@ use App\Models\Enrollment;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Illuminate\Support\Facades\Storage;
 
 class TrainerSessionController extends Controller
 {
@@ -21,38 +20,6 @@ class TrainerSessionController extends Controller
             ->paginate(10);
 
         return view('trainer.sessions.index', compact('sessions'));
-    }
-
-    public function create(): View
-    {
-        $courses = Course::query()
-            ->where('type', 'internal')
-            ->orderBy('title')
-            ->get();
-
-        return view('trainer.sessions.create', compact('courses'));
-    }
-
-    public function store(Request $request): RedirectResponse
-    {
-        $data = $request->validate([
-            'course_id'        => ['required', 'exists:courses,id'],
-            'start_date'       => ['required', 'date'],
-            'end_date'         => ['required', 'date', 'after_or_equal:start_date'],
-            'start_time'       => ['nullable', 'date_format:H:i'],
-            'end_time'         => ['nullable', 'date_format:H:i'],
-            'location'         => ['nullable', 'string', 'max:255'],
-            'max_participants' => ['nullable', 'integer', 'min:1'],
-        ]);
-
-        CourseSession::create([
-            ...$data,
-            'trainer_id' => auth()->id(),
-            'status'     => 'planned',
-        ]);
-
-        return redirect()->route('trainer-sessions.index')
-            ->with('success', 'Поток успешно создан.');
     }
 
     public function show(CourseSession $session): View
@@ -98,5 +65,37 @@ class TrainerSessionController extends Controller
         $enrollment->update(['certificate_path' => $path]);
 
         return back()->with('success', 'Сертификат загружен.');
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'course_id' => ['required', 'exists:courses,id'],
+            'start_date' => ['required', 'date'],
+            'end_date' => ['required', 'date', 'after_or_equal:start_date'],
+            'start_time' => ['nullable', 'date_format:H:i'],
+            'end_time' => ['nullable', 'date_format:H:i'],
+            'location' => ['nullable', 'string', 'max:255'],
+            'max_participants' => ['nullable', 'integer', 'min:1'],
+        ]);
+
+        CourseSession::create([
+            ...$data,
+            'trainer_id' => auth()->id(),
+            'status' => 'planned',
+        ]);
+
+        return redirect()->route('trainer-sessions.index')
+            ->with('success', 'Поток успешно создан.');
+    }
+
+    public function create(): View
+    {
+        $courses = Course::query()
+            ->where('type', 'internal')
+            ->orderBy('title')
+            ->get();
+
+        return view('trainer.sessions.create', compact('courses'));
     }
 }

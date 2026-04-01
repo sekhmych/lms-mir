@@ -12,7 +12,6 @@ class EnrollmentController extends Controller
     {
         $user = auth()->user();
 
-        // Проверяем, не записан ли уже пользователь на этот поток
         $existing = $session->enrollments()
             ->where('user_id', $user->id)
             ->first();
@@ -21,7 +20,7 @@ class EnrollmentController extends Controller
             return back()->with('warning', 'Вы уже записаны на этот поток.');
         }
 
-        // Записываем на поток
+        
         $session->enrollments()->create([
             'user_id'          => $user->id,
             'course_id'        => $session->course_id,

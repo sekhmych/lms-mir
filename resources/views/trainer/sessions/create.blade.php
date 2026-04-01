@@ -12,7 +12,6 @@
                     <form method="POST" action="{{ route('trainer-sessions.store') }}" class="space-y-5">
                         @csrf
 
-                        {{-- Выбор курса --}}
                         <div>
                             <x-input-label for="course_id" value="Курс" />
                             <select id="course_id" name="course_id"
@@ -28,7 +27,6 @@
                             <x-input-error :messages="$errors->get('course_id')" class="mt-1" />
                         </div>
 
-                        {{-- Даты --}}
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <x-input-label for="start_date" value="Дата начала" />
@@ -46,7 +44,6 @@
                             </div>
                         </div>
 
-                        {{-- Время --}}
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <x-input-label for="start_time" value="Время начала (необязательно)" />
@@ -64,7 +61,6 @@
                             </div>
                         </div>
 
-                        {{-- Место и методы --}}
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <x-input-label for="location" value="Место проведения (необязательно)" />
