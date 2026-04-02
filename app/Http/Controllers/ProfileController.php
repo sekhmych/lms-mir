@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use Dcblogdev\MsGraph\Models\MsGraphToken;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,8 +17,12 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $microsoftToken = MsGraphToken::where('user_id', $request->user()->id)->first();
+
         return view('profile.edit', [
             'user' => $request->user(),
+            'microsoftConnected' => $microsoftToken !== null,
+            'microsoftEmail' => $microsoftToken?->email,
         ]);
     }
 

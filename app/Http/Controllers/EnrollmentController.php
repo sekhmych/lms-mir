@@ -3,31 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\CourseSession;
+use App\Services\EnrollmentService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 class EnrollmentController extends Controller
 {
-    public function store(CourseSession $session): RedirectResponse
+    public function store(CourseSession $session, EnrollmentService $service): RedirectResponse
     {
         $user = auth()->user();
 
         $existing = $session->enrollments()
             ->where('user_id', $user->id)
-            ->first();
+            ->exists();
 
         if ($existing) {
             return back()->with('warning', 'Вы уже записаны на этот поток.');
         }
 
-        
-        $session->enrollments()->create([
-            'user_id'          => $user->id,
-            'course_id'        => $session->course_id,
-            'course_session_id' => $session->id,
-            'status'           => 'registered',
-            'progress'         => 0,
-        ]);
+        $service->createEnrollment($session, $user->id);
 
         return back()->with('success', 'Вы успешно записаны на поток.');
     }

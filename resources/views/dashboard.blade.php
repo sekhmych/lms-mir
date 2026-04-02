@@ -29,6 +29,13 @@
                                         Синхронизировать курсы Stepik
                                     </button>
                                 </form>
+
+                                <form method="POST" action="{{ route('admin.calendar.sync') }}">
+                                    @csrf
+                                    <button type="submit" class="px-4 py-2 bg-gray-800 text-white text-sm rounded-sm hover:bg-gray-700 transition-colors">
+                                        Синхронизировать Outlook-календари
+                                    </button>
+                                </form>
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">

@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\CourseSession;
 use App\Models\Enrollment;
 use App\Models\User;
+use App\Services\EnrollmentService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -41,9 +42,8 @@ class TrainerSessionController extends Controller
         return view('trainer.sessions.show', compact('session', 'enrollments', 'availableEmployees'));
     }
 
-    public function updateEnrollmentStatus(Enrollment $enrollment, Request $request): RedirectResponse
+    public function updateEnrollmentStatus(Enrollment $enrollment, Request $request, EnrollmentService $service): RedirectResponse
     {
-        // Проверяем, что это поток текущего тренера
         if ($enrollment->session && $enrollment->session->trainer_id !== auth()->id()) {
             abort(403);
         }
@@ -52,7 +52,7 @@ class TrainerSessionController extends Controller
             'status' => ['required', 'in:registered,in_progress,completed,failed,cancelled'],
         ]);
 
-        $enrollment->update($data);
+        $service->updateStatus($enrollment, $data['status']);
 
         return back()->with('success', 'Статус обновлён.');
     }
@@ -106,7 +106,7 @@ class TrainerSessionController extends Controller
         return view('trainer.sessions.create', compact('courses'));
     }
 
-    public function enrollEmployee(CourseSession $session, Request $request): RedirectResponse
+    public function enrollEmployee(CourseSession $session, Request $request, EnrollmentService $service): RedirectResponse
     {
         if ($session->trainer_id !== auth()->id()) {
             abort(403);
@@ -124,13 +124,7 @@ class TrainerSessionController extends Controller
             return back()->with('warning', 'Этот сотрудник уже записан на поток.');
         }
 
-        $session->enrollments()->create([
-            'user_id' => $data['user_id'],
-            'course_id' => $session->course_id,
-            'course_session_id' => $session->id,
-            'status' => 'registered',
-            'progress' => 0,
-        ]);
+        $service->createEnrollment($session, $data['user_id']);
 
         return back()->with('success', 'Сотрудник записан на поток.');
     }

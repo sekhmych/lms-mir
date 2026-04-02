@@ -14,8 +14,14 @@ class Enrollment extends Model
         'status',
         'progress',
         'score',
-        'certificate_path'
+        'certificate_path',
+        'calendar_event_id'
     ];
+
+    public function course(): BelongsTo
+    {
+        return $this->belongsTo(Course::class);
+    }
 
     public function user(): BelongsTo
     {

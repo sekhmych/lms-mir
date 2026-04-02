@@ -10,6 +10,7 @@ use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\TrainerSessionController;
 use App\Http\Controllers\TrainerCourseController;
 use App\Http\Controllers\HrController;
+use App\Http\Controllers\MicrosoftAccountController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,10 +21,14 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+Route::get('/msgraph/oauth', [MicrosoftAccountController::class, 'connect'])->name('msgraph.connect');
+Route::get('/msgraph', fn () => redirect()->route('profile.edit')->with('status', 'microsoft-connected'))->name('msgraph.landing');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/profile/microsoft/disconnect', [MicrosoftAccountController::class, 'disconnect'])->name('profile.microsoft.disconnect');
 });
 
 Route::middleware(['auth', 'role:employee'])->group(function () {
@@ -68,6 +73,7 @@ Route::middleware(['auth', 'role:hr'])->prefix('hr')->name('hr.')->group(functio
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::post('/stepik/sync', [DashboardController::class, 'syncStepik'])->name('stepik.sync');
+    Route::post('/calendar/sync', [DashboardController::class, 'syncCalendar'])->name('calendar.sync');
 
     Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
     Route::get('/users/create', [AdminUserController::class, 'create'])->name('users.create');
@@ -75,6 +81,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/users/{user}/edit', [AdminUserController::class, 'edit'])->name('users.edit');
     Route::patch('/users/{user}', [AdminUserController::class, 'update'])->name('users.update');
     Route::delete('/users/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
+    Route::get('/users/{user}/calendar', [AdminUserController::class, 'calendar'])->name('users.calendar');
 });
 
 require __DIR__.'/auth.php';

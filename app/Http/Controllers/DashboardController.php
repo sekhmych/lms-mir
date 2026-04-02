@@ -9,6 +9,7 @@ use App\Models\ExternalRequest;
 use App\Models\StepikCourse;
 use App\Models\User;
 use App\Services\StepikSyncService;
+use App\Services\EnrollmentService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -208,6 +209,15 @@ class DashboardController extends Controller
         return redirect()
             ->route('dashboard')
             ->with('success', "Синхронизировано {$count} курсов Stepik.");
+    }
+
+    public function syncCalendar(EnrollmentService $enrollmentService): RedirectResponse
+    {
+        $count = $enrollmentService->syncCalendarEvents();
+
+        return redirect()
+            ->route('dashboard')
+            ->with('success', "Создано {$count} событий в Outlook.");
     }
 
     private function formatBytes(int|float $bytes): string

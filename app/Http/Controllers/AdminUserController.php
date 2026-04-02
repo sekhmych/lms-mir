@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Mail\UserCredentialsMail;
 use App\Models\User;
+use Dcblogdev\MsGraph\Models\MsGraphToken;
+use Dcblogdev\MsGraph\MsGraph;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -23,7 +26,9 @@ class AdminUserController extends Controller
             ->paginate(15)
             ->withQueryString();
 
-        return view('admin.users.index', compact('users'));
+        $msGraphUserIds = MsGraphToken::query()->pluck('user_id')->toArray();
+
+        return view('admin.users.index', compact('users', 'msGraphUserIds'));
     }
 
     public function create(): View
@@ -107,5 +112,33 @@ class AdminUserController extends Controller
         return redirect()
             ->route('admin.users.index')
             ->with('success', 'Пользователь удалён.');
+    }
+
+    public function calendar(User $user): JsonResponse
+    {
+        $token = MsGraphToken::where('user_id', $user->id)->first();
+
+        if (!$token) {
+            return response()->json(['error' => 'У пользователя нет привязки Microsoft 365.'], 404);
+        }
+
+        try {
+            $msgraph = new MsGraph();
+            MsGraph::login($user);
+
+            $now = now()->toIso8601String();
+            $future = now()->addMonths(3)->toIso8601String();
+
+            $response = $msgraph->get(
+                "me/calendarView?startDateTime={$now}&endDateTime={$future}&\$orderby=start/dateTime&\$top=50&\$select=subject,start,end,location,isAllDay,webLink",
+                [], [], $user->id
+            );
+
+            return response()->json([
+                'events' => $response['value'] ?? [],
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Не удалось загрузить календарь: ' . $e->getMessage()], 500);
+        }
     }
 }
