@@ -3,7 +3,7 @@
 
     <div class="py-12 px-12">
         <div class="">
-            <div class="bg-slate-200">
+            <div class="bg-white">
                 <div class="p-6 text-gray-900">
 
                     <div class="mb-4">
@@ -25,7 +25,7 @@
                                     };
                                 @endphp
                                 <a href="{{ route('hr.sessions.show', $session) }}"
-                                   class="block bg-gray-50 px-6 py-4 rounded-sm hover:bg-gray-100 transition-colors border border-gray-200">
+                                   class="block bg-white px-6 py-4 rounded-sm hover:bg-gray-100 transition-colors border border-gray-200">
                                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                                         <div class="flex-1 min-w-0">
                                             <div class="font-medium text-gray-900">{{ $session->course->title }}</div>

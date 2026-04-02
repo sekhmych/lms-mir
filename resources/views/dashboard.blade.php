@@ -32,16 +32,16 @@
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div class="bg-slate-50 border border-slate-200 rounded-sm p-5">
+                                <div class="bg-white border border-gray-200 rounded-sm p-5">
                                     <div class="text-sm text-gray-500 mb-1">Свободное место на диске</div>
                                     <div class="text-2xl font-semibold text-gray-900">{{ $adminStats['disk_free_space'] }}</div>
                                 </div>
-                                <div class="bg-slate-50 border border-slate-200 rounded-sm p-5">
+                                <div class="bg-white border border-gray-200 rounded-sm p-5">
                                     <div class="text-sm text-gray-500 mb-1">Всего курсов</div>
                                     <div class="text-2xl font-semibold text-gray-900">{{ $adminStats['total_courses'] }}</div>
                                     <div class="text-xs text-gray-500 mt-1">Внутренние: {{ $adminStats['internal_courses'] }}, Stepik: {{ $adminStats['stepik_courses'] }}</div>
                                 </div>
-                                <div class="bg-slate-50 border border-slate-200 rounded-sm p-5 flex flex-col justify-between">
+                                <div class="bg-white border border-gray-200 rounded-sm p-5 flex flex-col justify-between">
                                     <div>
                                         <div class="text-sm text-gray-500 mb-1">Пользователи</div>
                                         <div class="text-sm text-gray-700">Управление всеми учётными записями системы.</div>
@@ -56,6 +56,178 @@
                         </div>
                     @endif
 
+                    @if(Auth::user()->hasRole('director') && $directorStats)
+                        <div class="space-y-6">
+                            <div class="flex items-center justify-between gap-4 flex-wrap">
+                                <div>
+                                    <h2 class="text-xl font-semibold text-gray-900">Панель руководителя</h2>
+                                    <p class="text-sm text-gray-500">Сводная статистика по обучению в компании</p>
+                                </div>
+                                <div class="flex items-center gap-2 px-4 py-2 rounded-sm {{ $directorStats['overall_verdict']['class'] }}">
+                                    <span class="text-lg font-bold">{{ $directorStats['overall_verdict']['icon'] }}</span>
+                                    <div>
+                                        <div class="text-sm font-semibold">{{ $directorStats['overall_verdict']['text'] }}</div>
+                                        <div class="text-xs">Общий балл: {{ $directorStats['overall_percent'] }}%</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- Основные показатели --}}
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                <div class="bg-white border border-gray-200 rounded-sm p-5">
+                                    <div class="text-sm text-gray-500 mb-1">Сотрудники</div>
+                                    <div class="text-2xl font-semibold text-gray-900">{{ $directorStats['total_employees'] }}</div>
+                                    <div class="text-xs text-gray-500 mt-1">Тренеров: {{ $directorStats['total_trainers'] }}</div>
+                                </div>
+                                <div class="bg-white border border-gray-200 rounded-sm p-5">
+                                    <div class="text-sm text-gray-500 mb-1">Курсы</div>
+                                    <div class="text-2xl font-semibold text-gray-900">{{ $directorStats['total_courses'] }}</div>
+                                </div>
+                                <div class="bg-white border border-gray-200 rounded-sm p-5">
+                                    <div class="text-sm text-gray-500 mb-1">Потоки</div>
+                                    <div class="text-2xl font-semibold text-gray-900">{{ $directorStats['total_sessions'] }}</div>
+                                    <div class="text-xs text-gray-500 mt-1">
+                                        Активных: {{ $directorStats['active_sessions'] }},
+                                        Завершённых: {{ $directorStats['completed_sessions'] }}
+                                    </div>
+                                </div>
+                                <div class="bg-white border border-gray-200 rounded-sm p-5">
+                                    <div class="text-sm text-gray-500 mb-1">Охват обучением</div>
+                                    <div class="text-2xl font-semibold text-gray-900">{{ $directorStats['enrollment_rate'] }}%</div>
+                                    <div class="text-xs text-gray-500 mt-1">сотрудников записаны на курсы</div>
+                                </div>
+                            </div>
+
+                            {{-- Статистика записей --}}
+                            <div>
+                                <h3 class="text-base font-semibold text-gray-800 mb-3">Записи на обучение</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                                    <div class="bg-white border border-gray-200 rounded-sm p-4 text-center">
+                                        <div class="text-2xl font-semibold text-gray-900">{{ $directorStats['total_enrollments'] }}</div>
+                                        <div class="text-xs text-gray-500 mt-1">Всего</div>
+                                    </div>
+                                    <div class="bg-green-50 border border-green-200 rounded-sm p-4 text-center">
+                                        <div class="text-2xl font-semibold text-green-700">{{ $directorStats['completed_enrollments'] }}</div>
+                                        <div class="text-xs text-green-600 mt-1">Завершили</div>
+                                    </div>
+                                    <div class="bg-yellow-50 border border-yellow-200 rounded-sm p-4 text-center">
+                                        <div class="text-2xl font-semibold text-yellow-700">{{ $directorStats['in_progress_enrollments'] }}</div>
+                                        <div class="text-xs text-yellow-600 mt-1">В процессе</div>
+                                    </div>
+                                    <div class="bg-red-50 border border-red-200 rounded-sm p-4 text-center">
+                                        <div class="text-2xl font-semibold text-red-700">{{ $directorStats['failed_enrollments'] }}</div>
+                                        <div class="text-xs text-red-600 mt-1">Не сдали</div>
+                                    </div>
+                                    <div class="bg-white border border-gray-200 rounded-sm p-4 text-center">
+                                        <div class="text-2xl font-semibold text-gray-500">{{ $directorStats['cancelled_enrollments'] }}</div>
+                                        <div class="text-xs text-gray-400 mt-1">Отменено</div>
+                                    </div>
+                                </div>
+
+                                {{-- Прогресс-бар завершения --}}
+                                <div class="mt-4 bg-white border border-gray-200 rounded-sm p-4">
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="text-gray-600 font-medium">Процент завершения обучения</span>
+                                        <span class="font-semibold text-gray-900">{{ $directorStats['completion_rate'] }}%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-3">
+                                        <div class="h-3 rounded-full transition-all {{ $directorStats['completion_rate'] >= 60 ? 'bg-green-500' : ($directorStats['completion_rate'] >= 30 ? 'bg-yellow-400' : 'bg-red-400') }}"
+                                             style="width: {{ $directorStats['completion_rate'] }}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- Внешние заявки --}}
+                            <div>
+                                <h3 class="text-base font-semibold text-gray-800 mb-3">Заявки на внешнее обучение</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                    <div class="bg-yellow-50 border border-yellow-200 rounded-sm p-4 text-center">
+                                        <div class="text-2xl font-semibold text-yellow-700">{{ $directorStats['pending_requests'] }}</div>
+                                        <div class="text-xs text-yellow-600 mt-1">На рассмотрении</div>
+                                    </div>
+                                    <div class="bg-green-50 border border-green-200 rounded-sm p-4 text-center">
+                                        <div class="text-2xl font-semibold text-green-700">{{ $directorStats['approved_requests'] }}</div>
+                                        <div class="text-xs text-green-600 mt-1">Одобрено</div>
+                                    </div>
+                                    <div class="bg-red-50 border border-red-200 rounded-sm p-4 text-center">
+                                        <div class="text-2xl font-semibold text-red-700">{{ $directorStats['rejected_requests'] }}</div>
+                                        <div class="text-xs text-red-600 mt-1">Отклонено</div>
+                                    </div>
+                                    <div class="bg-white border border-gray-200 rounded-sm p-4 text-center">
+                                        <div class="text-2xl font-semibold text-gray-900">{{ number_format($directorStats['total_ext_budget'], 0, ',', ' ') }} ₽</div>
+                                        <div class="text-xs text-gray-500 mt-1">Бюджет одобренных</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- Итоговая оценка --}}
+                            <div class="bg-white border border-gray-200 rounded-sm p-5">
+                                <h3 class="text-base font-semibold text-gray-800 mb-3">Краткие итоги</h3>
+                                <div class="space-y-2 text-sm">
+                                    @if($directorStats['completion_rate'] >= 60)
+                                        <div class="flex items-center gap-2 text-green-700">
+                                            <span class="font-bold">✓</span>
+                                            <span>Хороший уровень завершения обучения ({{ $directorStats['completion_rate'] }}%)</span>
+                                        </div>
+                                    @else
+                                        <div class="flex items-center gap-2 text-red-600">
+                                            <span class="font-bold">!</span>
+                                            <span>Низкий уровень завершения обучения ({{ $directorStats['completion_rate'] }}%) — необходимо усилить контроль</span>
+                                        </div>
+                                    @endif
+
+                                    @if($directorStats['enrollment_rate'] >= 50)
+                                        <div class="flex items-center gap-2 text-green-700">
+                                            <span class="font-bold">✓</span>
+                                            <span>Хороший охват сотрудников ({{ $directorStats['enrollment_rate'] }}%)</span>
+                                        </div>
+                                    @else
+                                        <div class="flex items-center gap-2 text-orange-600">
+                                            <span class="font-bold">!</span>
+                                            <span>Охват сотрудников обучением низкий ({{ $directorStats['enrollment_rate'] }}%) — рекомендуется расширить</span>
+                                        </div>
+                                    @endif
+
+                                    @if($directorStats['failed_enrollments'] === 0)
+                                        <div class="flex items-center gap-2 text-green-700">
+                                            <span class="font-bold">✓</span>
+                                            <span>Нет провалов — сотрудники справляются с обучением</span>
+                                        </div>
+                                    @elseif($directorStats['failed_enrollments'] <= 3)
+                                        <div class="flex items-center gap-2 text-yellow-600">
+                                            <span class="font-bold">–</span>
+                                            <span>Есть {{ $directorStats['failed_enrollments'] }} несданных — стоит обратить внимание</span>
+                                        </div>
+                                    @else
+                                        <div class="flex items-center gap-2 text-red-600">
+                                            <span class="font-bold">✕</span>
+                                            <span>Много несданных ({{ $directorStats['failed_enrollments'] }}) — требуется анализ причин</span>
+                                        </div>
+                                    @endif
+
+                                    @if($directorStats['active_sessions'] > 0)
+                                        <div class="flex items-center gap-2 text-green-700">
+                                            <span class="font-bold">✓</span>
+                                            <span>{{ $directorStats['active_sessions'] }} активных потоков — обучение идёт</span>
+                                        </div>
+                                    @else
+                                        <div class="flex items-center gap-2 text-orange-600">
+                                            <span class="font-bold">!</span>
+                                            <span>Нет активных потоков — обучение приостановлено</span>
+                                        </div>
+                                    @endif
+
+                                    @if($directorStats['pending_requests'] > 0)
+                                        <div class="flex items-center gap-2 text-yellow-600">
+                                            <span class="font-bold">–</span>
+                                            <span>{{ $directorStats['pending_requests'] }} заявок на внешнее обучение ожидают рассмотрения</span>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
                     @if(Auth::user()->hasRole('trainer') && $trainerStats)
                         <div class="space-y-6">
                             <div>
@@ -64,7 +236,7 @@
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div class="bg-slate-50 border border-slate-200 rounded-sm p-5">
+                                <div class="bg-white border border-gray-200 rounded-sm p-5">
                                     <div class="text-sm text-gray-500 mb-1">Потоки</div>
                                     <div class="text-2xl font-semibold text-gray-900">{{ $trainerStats['total_sessions'] }}</div>
                                     <div class="text-xs text-gray-500 mt-1">
@@ -72,11 +244,11 @@
                                         Завершённых: {{ $trainerStats['completed_sessions'] }}
                                     </div>
                                 </div>
-                                <div class="bg-slate-50 border border-slate-200 rounded-sm p-5">
+                                <div class="bg-white border border-gray-200 rounded-sm p-5">
                                     <div class="text-sm text-gray-500 mb-1">Мои курсы</div>
                                     <div class="text-2xl font-semibold text-gray-900">{{ $trainerStats['total_courses'] }}</div>
                                 </div>
-                                <div class="bg-slate-50 border border-slate-200 rounded-sm p-5">
+                                <div class="bg-white border border-gray-200 rounded-sm p-5">
                                     <div class="text-sm text-gray-500 mb-1">Участники</div>
                                     <div class="text-2xl font-semibold text-gray-900">{{ $trainerStats['total_enrollments'] }}</div>
                                     <div class="text-xs text-gray-500 mt-1">

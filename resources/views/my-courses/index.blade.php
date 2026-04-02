@@ -3,7 +3,7 @@
 
     <div class="py-12 px-12">
         <div class="">
-            <div class="bg-slate-200">
+            <div class="bg-white">
                 <div class="p-6 text-gray-900 space-y-10">
 
                     <div>
@@ -40,7 +40,7 @@
                                         $enrollmentStatus  = $enrollmentStatusLabels[$enrollment->status] ?? ['label' => $enrollment->status, 'class' => 'bg-gray-100 text-gray-600'];
                                         $sessionStatus  = $sessionStatusLabels[$session?->status] ?? ['label' => $session?->status, 'class' => 'bg-gray-100 text-gray-600'];
                                     @endphp
-                                    <a href="{{ route('my-courses.show', $enrollment) }}" class="flex flex-col bg-gray-50 px-6 py-4 rounded-sm hover:bg-gray-100 transition-colors">
+                                    <a href="{{ route('my-courses.show', $enrollment) }}" class="flex flex-col bg-white px-6 py-4 rounded-sm hover:bg-gray-100 transition-colors">
                                         <div class="flex-1">
                                             <div class="flex items-start justify-between gap-2 mb-2">
                                                 <h3 class="font-semibold text-gray-900 text-base leading-snug">
@@ -107,7 +107,7 @@
                         @else
                             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                 @foreach ($approvedRequests as $exRequest)
-                                    <div class="flex flex-col bg-gray-50 px-6 py-4 rounded-sm">
+                                    <div class="flex flex-col bg-white px-6 py-4 rounded-sm">
                                         <div class="flex-1">
                                             <div class="flex items-start justify-between gap-2 mb-2">
                                                 <h3 class="font-semibold text-gray-900 text-base leading-snug">

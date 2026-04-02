@@ -4,7 +4,7 @@
 
     <div class="py-12 px-12">
         <div class="max-w-4xl">
-            <div class="bg-slate-200">
+            <div class="bg-white">
                 <div class="p-6 text-gray-900 space-y-6">
 
                     <div>
@@ -18,7 +18,7 @@
                     @endphp
 
                     {{-- Информация о потоке --}}
-                    <div class="bg-gray-50 px-6 py-4 rounded-sm space-y-3">
+                    <div class="bg-white px-6 py-4 rounded-sm space-y-3">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                             <div>
                                 <span class="font-medium text-gray-700">Курс:</span>
@@ -69,7 +69,7 @@
                         @else
                             <div class="space-y-3">
                                 @foreach ($course->lessons as $index => $lesson)
-                                    <div class="bg-gray-50 px-6 py-4 rounded-sm border border-gray-200">
+                                    <div class="bg-white px-6 py-4 rounded-sm border border-gray-200">
                                         <div class="flex items-center gap-2 mb-1">
                                             <span class="text-xs font-medium text-gray-400">{{ $index + 1 }}.</span>
                                             <span class="font-medium text-gray-900">{{ $lesson->title }}</span>

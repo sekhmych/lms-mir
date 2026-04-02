@@ -3,7 +3,7 @@
 
     <div class="py-12 px-12">
         <div class="max-w-2xl">
-            <div class="bg-slate-200">
+            <div class="bg-white">
                 <div class="p-6 text-gray-900">
                     <div class="mb-4">
                         <a href="{{ route('trainer-courses.index') }}" class="text-sm text-gray-500 hover:text-gray-700">&larr; Назад к курсам</a>

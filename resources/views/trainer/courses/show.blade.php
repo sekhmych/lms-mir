@@ -10,7 +10,7 @@
         @endif
 
         <div class="max-w-4xl">
-            <div class="bg-slate-200">
+            <div class="bg-white">
                 <div class="p-6 text-gray-900 space-y-6">
 
                     <div>
@@ -19,7 +19,7 @@
                     </div>
 
                     {{-- Информация о курсе --}}
-                    <div class="bg-gray-50 px-6 py-4 rounded-sm space-y-3">
+                    <div class="bg-white px-6 py-4 rounded-sm space-y-3">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                             <div>
                                 <span class="font-medium text-gray-700">Название:</span>
@@ -57,7 +57,7 @@
                         @else
                             <div class="space-y-3 mb-6">
                                 @foreach ($course->lessons as $index => $lesson)
-                                    <div class="bg-gray-50 px-6 py-4 rounded-sm border border-gray-200">
+                                    <div class="bg-white px-6 py-4 rounded-sm border border-gray-200">
                                         <div class="flex items-start justify-between gap-4">
                                             <div class="flex-1 min-w-0">
                                                 <div class="flex items-center gap-2">

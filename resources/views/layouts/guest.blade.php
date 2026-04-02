@@ -15,9 +15,9 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div class="flex flex-col">
-                <img src="logo.svg" class="rounded-sm" alt="">
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0" style="background-color: #C7EDFF;">
+            <div class="flex flex-col items-center bg-gray-900 px-6 py-4 rounded-lg">
+                <img src="{{ asset('logo2.png') }}" class="h-16 w-auto" alt="{{ config('app.name') }}">
             </div>
 
             <div class="w-full sm:max-w-3xl mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-sm">

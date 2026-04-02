@@ -17,7 +17,7 @@
         @endif
 
         <div class="max-w-4xl">
-            <div class="bg-slate-200">
+            <div class="bg-white">
                 <div class="p-6 text-gray-900 space-y-6">
 
                     <div>
@@ -25,7 +25,7 @@
                            class="text-sm text-gray-500 hover:text-gray-700">&larr; Назад к потокам</a>
                     </div>
 
-                    <div class="bg-gray-50 px-6 py-4 rounded-sm space-y-3">
+                    <div class="bg-white px-6 py-4 rounded-sm space-y-3">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                             <div>
                                 <span class="font-medium text-gray-700">Курс:</span>
@@ -61,7 +61,7 @@
                         @else
                             <div class="overflow-x-auto">
                                 <table class="min-w-full divide-y divide-gray-200">
-                                    <thead class="bg-gray-50">
+                                    <thead class="bg-white">
                                         <tr>
                                             <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Участник</th>
                                             <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Статус</th>

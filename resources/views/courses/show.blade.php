@@ -17,10 +17,10 @@
 
         <div class="max-w-2xl">
 
-            <div class="bg-slate-200">
+            <div class="bg-white">
 
                 <div class="p-6 text-gray-900">
-                    <div class="bg-gray-50 px-6 py-4 rounded-sm space-y-4">
+                    <div class="bg-white px-6 py-4 rounded-sm space-y-4">
 
                         <div class="">
                             <a href="{{ route('courses.index') }}"

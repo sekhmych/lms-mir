@@ -2,7 +2,7 @@
     <x-slot:header>Пользователи</x-slot:header>
 
     <div class="py-12 px-12">
-        <div class="bg-slate-200">
+        <div class="bg-white">
             <div class="p-6 text-gray-900 space-y-6">
                 <div class="flex items-center justify-between gap-4">
                     <div>
@@ -22,7 +22,7 @@
 
                 <div class="bg-white border border-slate-300 rounded-sm overflow-hidden">
                     <table class="min-w-full text-sm">
-                        <thead class="bg-slate-100 text-left text-gray-600">
+                        <thead class="bg-gray-50 text-left text-gray-600">
                             <tr>
                                 <th class="px-4 py-3 font-medium">Имя</th>
                                 <th class="px-4 py-3 font-medium">Email</th>

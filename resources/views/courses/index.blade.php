@@ -2,7 +2,7 @@
     <x-slot:header>Курсы</x-slot:header>
 
     <div class="py-12 px-12">
-        <div class="bg-slate-200">
+        <div class="bg-white">
             <div class="p-6 text-gray-900 space-y-6">
                 <div class="bg-white rounded-sm border border-slate-300 p-4">
                     <form method="GET" action="{{ route('courses.index') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
@@ -61,7 +61,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         @foreach ($courses as $course)
                             @if ($course->source_type === 'internal')
-                                <a href="{{ route('courses.show', $course) }}" class="flex flex-col bg-gray-50 px-6 py-4 rounded-sm hover:bg-gray-100 transition-colors border border-transparent hover:border-gray-200">
+                                <a href="{{ route('courses.show', $course) }}" class="flex flex-col bg-white px-6 py-4 rounded-sm hover:bg-gray-100 transition-colors border border-transparent hover:border-gray-200">
                                     <div class="flex items-center justify-between gap-2 mb-3">
                                         <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-gray-800 text-white">Внутренний</span>
                                         <span class="text-xs text-gray-500">
@@ -134,7 +134,7 @@
                                             @if ($course->categories)
                                                 <div class="flex flex-wrap gap-2">
                                                     @foreach (array_slice($course->categories, 0, 3) as $category)
-                                                        <span class="inline-flex items-center px-2 py-1 text-xs rounded-full bg-slate-100 text-slate-700">{{ $category }}</span>
+                                                        <span class="inline-flex items-center px-2 py-1 text-xs rounded-full bg-gray-50 text-gray-700">{{ $category }}</span>
                                                     @endforeach
                                                 </div>
                                             @endif
@@ -147,7 +147,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="mt-auto pt-4 border-t border-slate-200">
+                                        <div class="mt-auto pt-4 border-t border-gray-200">
                                             <a href="{{ $course->course_url }}" target="_blank" rel="noopener noreferrer" class="inline-flex w-full justify-center px-4 py-2 bg-blue-600 text-white text-sm rounded-sm hover:bg-blue-700 transition-colors">
                                                 Открыть на Stepik
                                             </a>

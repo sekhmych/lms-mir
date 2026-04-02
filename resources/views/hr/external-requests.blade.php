@@ -3,7 +3,7 @@
 
     <div class="py-12 px-12">
         <div class="">
-            <div class="bg-slate-200">
+            <div class="bg-white">
                 <div class="p-6 text-gray-900">
 
                     @if (session('success'))

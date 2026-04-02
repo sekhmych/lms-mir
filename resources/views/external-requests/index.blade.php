@@ -3,7 +3,7 @@
 
     <div class="py-12 px-12">
         <div class="">
-            <div class="bg-slate-200">
+            <div class="bg-white">
                 <div class="p-6 text-gray-900">
 
                     @if (session('success'))
@@ -35,7 +35,7 @@
                                     ];
                                     $status = $statusLabels[$request->status] ?? ['label' => $request->status, 'class' => 'bg-gray-100 text-gray-600'];
                                 @endphp
-                                <div class="bg-gray-50 px-6 py-4 rounded-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="bg-white px-6 py-4 rounded-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                                     <div class="flex-1 min-w-0">
                                         <div class="font-medium text-gray-900 truncate">{{ $request->course_title }}</div>
                                         <div class="text-sm text-gray-500 mt-1 space-x-4">

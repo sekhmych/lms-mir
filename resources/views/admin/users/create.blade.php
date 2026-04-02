@@ -2,7 +2,7 @@
     <x-slot:header>Создание пользователя</x-slot:header>
 
     <div class="py-12 px-12">
-        <div class="max-w-3xl bg-slate-200">
+        <div class="max-w-3xl bg-white">
             <div class="p-6 text-gray-900">
                 <form method="POST" action="{{ route('admin.users.store') }}" class="bg-white border border-slate-300 rounded-sm p-6 space-y-5">
                     @csrf
